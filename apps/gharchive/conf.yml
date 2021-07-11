@@ -1,0 +1,6 @@
+dev:
+  TARGET_DIR: /Users/itversity/Projects/Internal/bootcamp/airflow-examples/data
+  BOOKMARK_DIR: /Users/itversity/Projects/Internal/bootcamp/airflow-examples/bookmark
+  BOOKMARK_FILE: gharchive.bookmark
+  BASELINE_FILE: 2021-01-13-1.json.gz
+

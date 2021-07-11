@@ -1,11 +1,5 @@
-from util import get_client
-
-
-def upload_s3(body, bucket, file):
-    s3_client = get_client()
-    res = s3_client.put_object(
-        Bucket=bucket,
-        Key=file,
-        Body=body
-    )
+def upload_file(body, target_dir, file):
+    file_to_write = open(f'{target_dir}/{file}', 'wb')
+    res = file_to_write.write(body)
+    file_to_write.close()
     return res
