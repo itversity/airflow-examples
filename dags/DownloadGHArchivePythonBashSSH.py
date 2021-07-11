@@ -4,7 +4,8 @@
 from datetime import timedelta
 
 from airflow import DAG
-from airflow.operators.bash import BashOperator
+from airflow.providers.ssh.operators.ssh import SSHOperator
+from airflow.providers.ssh.hooks.ssh import SSHHook
 from airflow.utils.dates import days_ago
 from airflow.models import Variable
 
@@ -13,8 +14,10 @@ args = {
     'owner': 'airflow',
 }
 
+sshHook = SSHHook(ssh_conn_id='ITVersity Gateway')
+
 with DAG(
-    dag_id='download_ghactivity_python_bash',
+    dag_id='download_ghactivity_python_bash_ssh',
     default_args=args,
     schedule_interval='0 0 * * *',
     start_date=days_ago(1),
@@ -22,15 +25,14 @@ with DAG(
 ) as dag:
 
     # [START airflow_dag]
-    python_loc = Variable.get('PYTHON_VENV_DIR')
-    apps_dir = Variable.get('APPS_DIR')
-    environ = Variable.get('ENVIRON')
-    conf_file_name = Variable.get('CONF_FILE_NAME')
-    download_file = BashOperator(
+    python_loc = Variable.get('ITV_PYTHON_VENV_DIR')
+    apps_dir = Variable.get('ITV_APPS_DIR')
+    download_file = SSHOperator(
         task_id='download_file',
-        bash_command=f'{python_loc}/python {apps_dir}/gharchive/app.py',
-        env={'ENVIRON':  environ, 'CONF_FILE_NAME': conf_file_name},
+        command=f'{python_loc}/python {apps_dir}/gharchive/app.py lab /home/itversity/airflow-examples/apps/gharchive/conf.yml',
+        ssh_hook=sshHook,
     )
+
     # [END airflow_dag]
 
 download_file

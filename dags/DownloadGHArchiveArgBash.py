@@ -25,13 +25,13 @@ with DAG(
     file_hour = Variable.get('gh_file_hour')
     scripts_dir = Variable.get('SCRIPTS_DIR')
     data_dir = Variable.get('DATA_DIR')
-    run_this = BashOperator(
+    download_file = BashOperator(
         task_id='download_file',
         bash_command=f'{scripts_dir}/download_gharchive_arg.sh {data_dir} {file_hour}',
     )
     # [END airflow_dag]
 
-run_this
+download_file
 
 if __name__ == "__main__":
     dag.cli()

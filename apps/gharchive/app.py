@@ -1,4 +1,5 @@
 import os
+import sys
 from download import download_file
 from util import get_prev_file_name, \
     get_next_file_name, update_bookmark, \
@@ -7,8 +8,12 @@ from upload import upload_file
 
 
 def main():
-    conf_file_name = os.environ.get('CONF_FILE_NAME')
-    environ = os.environ.get('ENVIRON')
+    if len(sys.argv) == 3:
+        environ = sys.argv[1]
+        conf_file_name = sys.argv[2]
+    else:
+        conf_file_name = os.environ.get('CONF_FILE_NAME')
+        environ = os.environ.get('ENVIRON')
     conf = get_conf(conf_file_name, environ)
     if environ == 'DEV':
         print(f'Running in {environ} environment')
