@@ -5,8 +5,8 @@ from datetime import timedelta
 
 from airflow import DAG
 from airflow.providers.ssh.operators.ssh import SSHOperator
-from airflow.utils.dates import days_ago
 from airflow.providers.ssh.hooks.ssh import SSHHook
+from airflow.utils.dates import days_ago
 
 
 args = {
